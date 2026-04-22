@@ -38,7 +38,7 @@ export default function FilterDropdown({ filter, setFilter }) {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef} >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 font-bold text-sm text-[#0C0E16] dark:text-white"
@@ -51,11 +51,11 @@ export default function FilterDropdown({ filter, setFilter }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 shadow-xl rounded-md py-2 z-50 bg-white">
+        <div className="absolute right-0 mt-2 w-48 shadow-xl rounded-md py-2 z-50 bg-white dark:bg-[#252945]">
           {options.map((option) => (
             <label
               key={option.value}
-              className="flex items-center gap-3 px-5 py-3 cursor-pointer font-bold text-sm"
+              className="flex items-center gap-4 px-5 py-3 cursor-pointer font-bold text-sm"
             >
               <div className="relative">
                 <input
@@ -65,7 +65,8 @@ export default function FilterDropdown({ filter, setFilter }) {
                   className="peer w-5 h-5 appearance-none border-transparent rounded
                bg-[#DFE3FA] cursor-pointer
                hover:border-2 hover:border-[#7C5DFA] transition-colors duration-300
-               checked:border checked:border-[#7C5DFA] checked:bg-[#7C5DFA]"
+               checked:border checked:border-[#7C5DFA] checked:bg-[#7C5DFA]
+               dark:bg-[#1E2139]"
                 />
 
                 {/* Custom Check Icon */}

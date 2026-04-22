@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import { useInvoices } from "../hooks/useInvoices";
 import StatusBadge from "./StatusBadge";
 import FilterDropdown from "./FilterDropdown";
+import { Link } from "react-router-dom";
 
 export default function InvoiceList() {
   const { invoices } = useInvoices();
@@ -42,9 +43,10 @@ export default function InvoiceList() {
         {/* Invoice Rows */}
         <div className="flex flex-col gap-4">
           {filteredInvoices.map((invoice) => (
-            <div 
+            <Link
+              to={`/invoice/${invoice.id}`} 
               key={invoice.id}
-              className="bg-white dark:bg-[#1e1b4b] hover:bg-gray-50 dark:hover:bg-[#25224f] hover:shadow-md dark:hover:shadow-xl dark:border-transparent border-2 border-transparent hover:border-2 hover:border-[#25224f] py-2 px-4 rounded-md shadow flex items-center gap-8 cursor-pointer transition-all duration-300 ease-out"
+              className="bg-white h-18 dark:bg-[#48549F1A] dark:hover:bg-[#48549F1A] hover:bg-gray-50 dark:hover:border-[#7C5DFA] hover:shadow-md dark:hover:shadow-xl dark:border-2 border-2 border-transparent hover:border-2 hover:border-[#25224f] py-2 px-6 rounded-lg shadow flex items-center gap-8 cursor-pointer transition-all duration-300 ease-out"
             >
               <div className="w-28 font-mono font-bold">#{invoice.id}</div>
               <div className="w-40 text-gray-400">Due {invoice.createdAt}</div>
@@ -54,7 +56,7 @@ export default function InvoiceList() {
               </div>
               <StatusBadge status={invoice.status} className=""/>
               <div className="text-gray-400">→</div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

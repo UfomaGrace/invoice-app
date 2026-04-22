@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
 import InvoiceListPage from '../pages/InvoiceListPage'
+import InvoiceDetailPage from '../pages/InvoiceDetailPage'
 
 function Router() {
   return (
@@ -9,9 +10,8 @@ function Router() {
         <Routes>
             <Route path='/' element={<Navbar/>}>
                 <Route index element={ <InvoiceListPage/>} />
-
-                {/* <Route path="create" element={<InvoiceForm />} />
-                <Route path="invoice/:id" element={<InvoiceDetail />} /> */}
+                <Route path="invoice/:id" element={<InvoiceDetailPage />} />
+                {/* <Route path="create" element={<InvoiceForm />} /> */}
             </Route>
         </Routes>
     </BrowserRouter>

@@ -31,6 +31,10 @@ export function useInvoices() {
           clientName: 'Jensen Huang',
           clientEmail: 'john@example.com',
           total: 1800.90,
+          items: [
+            { name: "Banner Design", quantity: 1, price: 1600.90 },
+            { name: "Email Design", quantity: 2, price: 200.00 }
+          ]
         },
         {
           id: 'XM9141',
@@ -39,6 +43,9 @@ export function useInvoices() {
           clientName: 'Alex Grim',
           clientEmail: 'sarah@example.com',
           total: 556.00,
+          items: [
+            { name: "Product Design", quantity: 1, price: 556.00 },
+          ]
         },
         {
           id: 'RG0314',
@@ -47,6 +54,12 @@ export function useInvoices() {
           clientName: 'John Morrinson',
           clientEmail: 'alex@example.com',
           total: 14002.33,
+          items: [
+            { name: "Banner Design", quantity: 1, price: 700.00 },
+            { name: "Email Design", quantity: 2, price: 300.50 },
+            { name: "Email Design", quantity: 2, price: 200.50 },
+            { name: "Email Design", quantity: 2, price: 201.33 },
+          ]
         },
         {
           id: 'RT2080',
@@ -55,6 +68,9 @@ export function useInvoices() {
           clientName: 'Alysa Werner',
           clientEmail: 'alex@example.com',
           total: 102.40,
+          items: [
+            { name: "Product Design", quantity: 1, price: 102.40 },
+          ]
         },
         {
           id: 'AA1449',
@@ -63,6 +79,9 @@ export function useInvoices() {
           clientName: 'Mellisa Clarke',
           clientEmail: 'alex@example.com',
           total: 4032.33,
+          items: [
+            { name: "Product Design", quantity: 1, price: 4032.33 },
+          ]
         },
         {
           id: 'TY9141',
@@ -71,6 +90,9 @@ export function useInvoices() {
           clientName: 'Thomas Wayne',
           clientEmail: 'alex@example.com',
           total: 6155.91,
+          items: [
+            { name: "Product Design", quantity: 1, price: 6155.91 },
+          ]
         },
         {
           id: 'V2353',
@@ -79,6 +101,9 @@ export function useInvoices() {
           clientName: 'Anita Wainwright',
           clientEmail: 'alex@example.com',
           total: 3102.04,
+          items: [
+            { name: "Product Design", quantity: 3, price: 3102.04 },
+          ]
         },
       ];
       setInvoices(fakeInvoices);
