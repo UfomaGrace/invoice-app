@@ -28,19 +28,18 @@ export function useInvoices() {
           id: "RT3080",
           createdAt: "19 Aug 2021",
           status: "paid",
-          total: 1800.9,
-
-          // Sender (Your Company - Bill From)
-          senderName: "Your Company Name",
-          senderEmail: "yourcompany@email.com",
+          clientName: "Jensen Huang",
+          clientEmail: "huang@example.com",
+          total: 1800.90,
+          // Bill From (Sender - usually your company info)
           senderAddress: {
             street: "123 Business Street",
             city: "London",
-            postCode: "SW1A 1AA",
+            postCode: "E1 3EZ",
             country: "United Kingdom",
           },
 
-          // Receiver (Client - Bill To)
+          // Bill To (Client)
           receiverName: "Alex Grim",
           receiverEmail: "alexgrim@email.com",
           receiverAddress: {
@@ -49,10 +48,9 @@ export function useInvoices() {
             postCode: "E1 3EZ",
             country: "United Kingdom",
           },
-
           items: [
-            { name: "Banner Design", quantity: 1, price: 1600.9 },
-            { name: "Email Design", quantity: 2, price: 200.0 },
+            { name: "Website Design", quantity: 1, price: 1800.90 },
+            { name: "Email Design", quantity: 2, price: 300.5 },
           ],
         },
 

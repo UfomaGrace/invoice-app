@@ -228,7 +228,7 @@ useEffect(() => {
                   <input
                   type="text"
                   name="clientName"
-                  value={formData.receiverName}
+                  value={formData.clientName}
                   onChange={handleChange}
                   className="w-full p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-violet-500"
                 />

@@ -58,9 +58,11 @@ export default function InvoiceList() {
 
             <button 
             onClick={handleNewInvoice}
-            className="flex items-center gap-3 bg-[#7C5DFA] hover:bg-[#8b6dff] px-6 py-3 rounded-2xl font-medium transition-colors">
+            className="flex items-center gap-3 bg-[#7C5DFA] hover:bg-[#8b6dff] text-white px-4 py-2 text-sm rounded-full font-medium transition-colors">
               
-              <Plus size={20} />
+              <div className="rounded-full p-2 text-sm bg-white text-[#7C5DFA]">
+                <Plus size={20} />
+              </div>
               New Invoice
             </button>
           </div>
