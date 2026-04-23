@@ -2,11 +2,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useInvoices } from "../hooks/useInvoices";
 import StatusBadge from "../components/StatusBadge.jsx";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import { useState } from "react";
+import InvoiceForm from "./InvoiceForm.jsx";
 
 export default function InvoiceDetail() {
   const { id } = useParams(); // Gets the id from URL
   const navigate = useNavigate(); // For "Go Back" button
   const { invoices, markAsPaid, deleteInvoice } = useInvoices();
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [invoiceToEdit, setInvoiceToEdit] = useState(null);
+  const { addInvoice, updateInvoice } = useInvoices();
+  
 
   // Find the invoice with the matching ID
   const invoice = invoices.find((inv) => inv.id === id);
@@ -30,6 +36,21 @@ export default function InvoiceDetail() {
   const calculatedTotal = invoice.items
     ? invoice.items.reduce((sum, item) => sum + item.quantity * item.price, 0)
     : invoice.total;
+
+  // Open form for editing existing invoice
+  const handleEdit = () => {
+    setInvoiceToEdit(invoice);
+    setIsFormOpen(true);
+  };
+
+  // Handle save from the form
+  const handleSaveInvoice = (newInvoiceData, editId) => {
+    if (editId) {
+      updateInvoice(newInvoiceData);
+    } else {
+      addInvoice(newInvoiceData);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-8">
@@ -56,9 +77,13 @@ export default function InvoiceDetail() {
           </div>
 
           <div className="flex gap-3">
-            <button className="px-5 py-2 text-sm font-medium border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+            <button 
+              onClick={handleEdit}
+              className="px-6 py-2 text-sm font-medium border border-gray-300 dark:border-gray-600 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
               Edit
             </button>
+
             <button
               onClick={() => {
                 if (
@@ -95,29 +120,40 @@ export default function InvoiceDetail() {
               #{invoice.id}
             </p>
             <h2 className="text-2xl font-bold mt-1 dark:text-white">
-              Graphic Design
+              {invoice.projectDescription || "Graphic Design"}
             </h2>
           </div>
           <div>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              19 Union Terrace
+              {invoice.senderAddress?.street}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">London</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">E1 3EZ</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{invoice.senderAddress?.city}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{invoice.senderAddress?.postCode}</p>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              United Kingdom
+              {invoice.senderAddress?.country}
             </p>
           </div>
+        </div>
+        <div>
+            
         </div>
 
         {/* Invoice Details Grid */}
         <div className="p-8 grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* Invoice Date */}
           <div>
-            <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
-              Invoice Date
-            </p>
-            <p className="font-medium dark:text-white">{invoice.createdAt}</p>
+            {/* Invoice Date */}
+            <div className="mb-8">
+                <p className="text-xs tracking-widest text-gray-500 dark:text-gray-400 mb-0.5">
+                    Invoice Date
+                </p>
+                <p className="font-medium dark:text-white">{invoice.createdAt}</p>
+            </div>
+            <div>
+                <p className="text-xs tracking-widest text-gray-500 dark:text-gray-400 mb-0.5">
+                    Payment due
+                </p>
+                <p className="font-medium dark:text-white">{invoice.createdAt}</p>
+            </div>
           </div>
 
           {/* Bill To */}
@@ -125,14 +161,14 @@ export default function InvoiceDetail() {
             <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
               Bill To
             </p>
-            <p className="font-medium dark:text-white">{invoice.clientName}</p>
+            <p className="font-medium dark:text-white">{invoice.receiverName}</p>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              19 Union Terrace
+              {invoice.receiverAddress?.street}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">London</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">E1 3EZ</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{invoice.receiverAddress?.city}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{invoice.receiverAddress?.postCode}</p>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              United Kingdom
+              {invoice.receiverAddress?.country}
             </p>
           </div>
 
@@ -142,7 +178,7 @@ export default function InvoiceDetail() {
               Sent To
             </p>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {invoice.clientEmail}
+              {invoice.receiverEmail}
             </p>
           </div>
         </div>
@@ -201,6 +237,17 @@ export default function InvoiceDetail() {
           
         </div>
       </div>
+      {/* The Modal Form */}
+      <InvoiceForm 
+        isOpen={isFormOpen}
+        onClose={() => {
+          setIsFormOpen(false);
+          setInvoiceToEdit(null);
+        }}
+        invoiceToEdit={invoiceToEdit}
+        
+        onSave={handleSaveInvoice}
+      />
     </div>
   );
 }

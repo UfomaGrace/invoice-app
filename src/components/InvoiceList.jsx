@@ -4,16 +4,39 @@ import { useInvoices } from "../hooks/useInvoices";
 import StatusBadge from "./StatusBadge";
 import FilterDropdown from "./FilterDropdown";
 import { Link } from "react-router-dom";
+import InvoiceForm from "./InvoiceForm";
 
 export default function InvoiceList() {
   const { invoices } = useInvoices();
   const [filter, setFilter] = useState("all"); // 'all', 'draft', 'pending', 'paid'
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [invoiceToEdit, setInvoiceToEdit] = useState(null);
+  const { addInvoice, updateInvoice } = useInvoices();
 
   //Filter logic
   const filteredInvoices = invoices.filter((invoice) => {
     if (filter === "all") return true;
     return invoice.status === filter;
   });
+
+  // Open form for creating new invoice
+  const handleNewInvoice = () => {
+    setInvoiceToEdit(null);
+    setIsFormOpen(true);
+  };
+
+  
+
+  // Handle save from the form
+  const handleSaveInvoice = (newInvoiceData, editId) => {
+    if (editId) {
+      // Update existing invoice
+      updateInvoice({newInvoiceData });
+    } else {
+      // Create new invoice
+      addInvoice(newInvoiceData);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -33,7 +56,10 @@ export default function InvoiceList() {
             {/* Filter Dropdown */}
             <FilterDropdown filter={filter} setFilter={setFilter} />
 
-            <button className="flex items-center gap-3 bg-[#7C5DFA] hover:bg-[#8b6dff] px-6 py-3 rounded-2xl font-medium transition-colors">
+            <button 
+            onClick={handleNewInvoice}
+            className="flex items-center gap-3 bg-[#7C5DFA] hover:bg-[#8b6dff] px-6 py-3 rounded-2xl font-medium transition-colors">
+              
               <Plus size={20} />
               New Invoice
             </button>
@@ -46,7 +72,7 @@ export default function InvoiceList() {
             <Link
               to={`/invoice/${invoice.id}`} 
               key={invoice.id}
-              className="bg-white h-18 dark:bg-[#48549F1A] dark:hover:bg-[#48549F1A] hover:bg-gray-50 dark:hover:border-[#7C5DFA] hover:shadow-md dark:hover:shadow-xl dark:border-2 border-2 border-transparent hover:border-2 hover:border-[#25224f] py-2 px-6 rounded-lg shadow flex items-center gap-8 cursor-pointer transition-all duration-300 ease-out"
+              className="bg-white h-18 dark:bg-[#48549F1A] dark:hover:bg-[#48549F1A] hover:bg-gray-50 dark:hover:border-[#7C5DFA] hover:border-[#7C5DFA] hover:shadow-md dark:hover:shadow-xl dark:border border border-transparent hover:border py-2 px-6 rounded-lg shadow flex items-center gap-8 cursor-pointer transition-all duration-300 ease-out"
             >
               <div className="w-28 font-mono font-bold">#{invoice.id}</div>
               <div className="w-40 text-gray-400">Due {invoice.createdAt}</div>
@@ -60,6 +86,13 @@ export default function InvoiceList() {
           ))}
         </div>
       </div>
+      {/* The Modal Form */}
+      <InvoiceForm
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        invoiceToEdit={invoiceToEdit}
+        onSave={handleSaveInvoice}
+      />
     </div>
   );
 }
