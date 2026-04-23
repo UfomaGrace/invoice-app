@@ -4,6 +4,7 @@ import StatusBadge from "../components/StatusBadge.jsx";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { useState } from "react";
 import InvoiceForm from "./InvoiceForm.jsx";
+import DeleteModal from "./DeleteModal.jsx";
 
 export default function InvoiceDetail() {
   const { id } = useParams(); // Gets the id from URL
@@ -12,6 +13,7 @@ export default function InvoiceDetail() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [invoiceToEdit, setInvoiceToEdit] = useState(null);
   const { addInvoice, updateInvoice } = useInvoices();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   
 
   // Find the invoice with the matching ID
@@ -84,21 +86,12 @@ export default function InvoiceDetail() {
               Edit
             </button>
 
-            <button
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Are you sure you want to delete this invoice?",
-                  )
-                ) {
-                  deleteInvoice(invoice.id);
-                  navigate("/");
-                }
-              }}
-              className="px-6 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-2xl transition-colors"
-            >
-              Delete
-            </button>
+            <button 
+  onClick={() => setIsDeleteModalOpen(true)}
+  className="px-6 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-2xl transition-colors"
+>
+  Delete
+</button>
             {invoice.status === "pending" && (
               <button
                 onClick={() => markAsPaid(invoice.id)}
@@ -248,6 +241,18 @@ export default function InvoiceDetail() {
         
         onSave={handleSaveInvoice}
       />
+
+      {/* Delete Confirmation Modal */}
+<DeleteModal
+  isOpen={isDeleteModalOpen}
+  onClose={() => setIsDeleteModalOpen(false)}
+  onConfirm={() => {
+    deleteInvoice(invoice.id);
+    setIsDeleteModalOpen(false);
+    navigate('/');           // Go back to list after deletion
+  }}
+  invoiceId={invoice.id}
+/>
     </div>
   );
 }
